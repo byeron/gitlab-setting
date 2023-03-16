@@ -1,0 +1,21 @@
+version: '3.6'
+services:
+  web:
+    image: 'gitlab/gitlab-ee:latest'
+    restart: always
+    # hostname: 'gitlab.example.com'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        # external_url 'http://192.168.100.42:8081'
+        external_url 'http://spring.gitlab.com:8081'
+        gitlab_rails['backup_keep_time'] = 604800
+        # Add any other gitlab.rb configuration here, each on its own line
+    ports:
+      - '8081:8081'
+      - '11443:443'
+      - '11122:22'
+    volumes:
+      - '$GITLAB_HOME/config:/etc/gitlab'
+      - '$GITLAB_HOME/logs:/var/log/gitlab'
+      - '$GITLAB_HOME/data:/var/opt/gitlab'
+    shm_size: '256m'
